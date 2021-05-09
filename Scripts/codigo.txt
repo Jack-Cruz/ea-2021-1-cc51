@@ -39,3 +39,31 @@ data$is_canceled==0
 cancelados<-data%>%filter(is_canceled!=0)
 tablaCancelado<-table(cancelados$arrival_date_month)
 pie(tablaCancelado)
+
+#outliers
+par(mfrow=c(1,3))
+boxplot(data$lead_time,main="Lead time con outliers")
+boxplot(data$stays_in_week_nights,main="week nights con outliers")
+boxplot(data$stays_in_weekend_nights,main="weekend nights con outliers")
+
+
+fix_outliers <- function(x, removeNA = TRUE){
+ 
+ quantiles <- quantile(x, c(0.05, 0.95), na.rm = removeNA)
+ x[x<quantiles[1]] <- mean(x, na.rm = removeNA)
+ x[x>quantiles[2]] <- median(x, na.rm = removeNA)
+ x
+}
+sinOutliersLeadTime<-fix_outliers(data$lead_time)
+sinOutliersWeekNights<-fix_outliers(data$stays_in_week_nights)
+sinOuliersWeekendNights<-fix_outliers(data$stays_in_weekend_nights)
+
+par(mfrow=c(1,2))
+boxplot(data$lead_time,main="Lead time con outliers")
+boxplot(sinOutliersLeadTime,main="Lead time sin outliers")
+
+boxplot(data$stays_in_week_nights,main="week nights con outliers")
+boxplot(sinOutliersWeekNights,main="week nights sin outliers")
+
+boxplot(data$stays_in_weekend_nights,main="weekend nights con outliers")
+boxplot(sinOuliersWeekendNights,main="weekend nights con outliers")
