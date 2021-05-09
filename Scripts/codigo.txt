@@ -26,3 +26,16 @@ barplot(canceladosPorAnio,
         main="Reservas por año",
         col=c("red","blue"),legend=c("no cancelado","cancelado"),
         xlab = ("año"),ylab = ("numero de reservas"),args.legend = list(x = "topright",inset = c(- 0.05, -0.25)))
+
+#tabla 4 estacionamientos
+estacionamiento=table(data$required_car_parking_spaces)
+density(data$required_car_parking_spaces)
+plot(estacionamiento,main="estacionamientos requeridos",xlab=("estacionamientos pedidos"),ylab = ("estacionamientos"))
+
+
+#tabla 5 cancelaciones por mes
+library(dplyr)
+data$is_canceled==0
+cancelados<-data%>%filter(is_canceled!=0)
+tablaCancelado<-table(cancelados$arrival_date_month)
+pie(tablaCancelado)
