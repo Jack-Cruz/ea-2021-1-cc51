@@ -102,6 +102,6 @@ data$babies <- media.valor(data[ ,12])
 data$days_in_waiting_list <- media.valor(data[,26])
 
 # exportar .csv
-write.csv(data,'D:/JC/UPC 2021-01/Adm. Info/grupal/hotel_bookings_cleaned.csv', na="NA",row.names=TRUE)
+write.csv(data,'../data/hotel_bookings_cleaned.csv', na="NA",row.names=TRUE)
 
 

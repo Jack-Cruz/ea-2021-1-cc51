@@ -6,9 +6,9 @@ library(dplyr)
 library(openxlsx)
 
 
-data = read.csv("../data/hotel_bookings_cleaned.csv")
+data = read.csv("../data/hotel_bookings_cleaned.csv", sep=",")
 
-
+par(mfrow=c(1,1))
 
 #### A
 ClientesPorHotel=table(data$hotel,data$arrival_date_year)
@@ -67,6 +67,17 @@ barplot(reservaciones,
                            inset = c(- 0.0, -0.05)))
 
 #### D
+#Para dibujar el gráfico circular
+draw_pie = function(df_col, lbls, titulo) {
+        df_col = table(df_col)
+        pct  = round(df_col/sum(df_col)*100)
+        lbls = paste(lbls, pct) # add percents to labels
+        lbls = paste(lbls,"%",sep="") # ad % to labels
+        pie(df_col, labels= lbls, col=rainbow(length(lbls)),
+            main=titulo)
+}
+
+
 data$reservation_date =as.Date(data$reservation_status_date, format="%d/%m/%Y")
 
 #En caso de haber cargado los datos como .xlsx
@@ -88,7 +99,6 @@ draw_pie(data$reservation_year, lbls, titulo)
 sum(data$reservation_year==2014)
 summary(data$reservation_date[data$reservation_year==2014])
 sum(data$reservation_date=="2014-10-17")
-
 
 ####  E
 data$babyORchildren = (data$children>0 | data$babies>0)
@@ -115,7 +125,7 @@ plot(estacionamiento,main="estacionamientos requeridos",xlab=("estacionamientos 
 #### G
 cancelados<-data%>%filter(is_canceled!=0)
 tablaCancelado<-table(cancelados$arrival_date_month)
-tablaCancelado1
+tablaCancelado
 porcentaje<- round(100*tablaCancelado/44224,1)
 porcentaje
 cols<-rainbow(12)
