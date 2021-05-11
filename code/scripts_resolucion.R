@@ -27,12 +27,12 @@ barplot(demanda.hotel,
 demanda.hotel
 
 #### C
-dtx = read.xlsx("../data/hotel_bookings_miss.xlsx")
-dtx$reservation_date =convertToDate(data$reservation_status_date)
+dtx = data
+dtx$reservation_date =as.Date(dtx$reservation_status_date, format="%d/%m/%Y")
 
 
 origin = "1900-01-01"
-dtx$reservation_month = format(as.Date(dtx$reservation_status_date, origin), "%m")
+dtx$reservation_month = format(as.Date(dtx$reservation_date, origin), "%m")
 dtx$reservation_month = as.numeric(dtx$reservation_month)
 
 
@@ -51,9 +51,8 @@ dtx$reservation_temporary = ifelse(dtx$reservation_temporary == 11, 4, dtx$reser
 dtx$reservation_temporary = ifelse(dtx$reservation_temporary == 12, 4, dtx$reservation_temporary)
 
 dtx$reservation_temporary
-
-dtx$reservation_temporary                                   
-dtx$reservation_year = format(as.Date(dtx$reservation_status_date, origin), "%Y")
+                                
+dtx$reservation_year = format(as.Date(dtx$reservation_date, origin), "%Y")
 dtx$reservation_year = as.numeric(dtx$reservation_year)
 
 reservaciones = table(dtx$reservation_year, dtx$reservation_temporary)
