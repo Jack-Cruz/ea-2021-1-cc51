@@ -24,6 +24,8 @@
 #
 # Contenidos
 
+> [GitHub](#github)
+
 1. [Objetivos](#data1)
 
 2. [Caso de análisis.](#data2)
@@ -51,8 +53,13 @@
 
 6. [Referencias](#refer)
 
-<div>&nbsp;</div><div>&nbsp;</div>
+<div>&nbsp;</div>
 
+#
+
+## >. GitHub<a name="github"></a>
+
+El código fuente y los datasets, con ruido y preprocesado, se encuentran publicados en repositorio [ea-2021-1-cc51](https://github.com/u201912400/ea-2021-1-cc51) publicado en GitHub.
 #
 ## 1. Objetivo <a name="data1"></a>
 
@@ -230,6 +237,8 @@ funcion.NA <- function(x){
     }
   }
 }
+
+funcion.NA(data)
 ```
 OUTPUT:
 ```
@@ -362,7 +371,7 @@ data$total_of_special_requests<-fix_outliers(data$total_of_special_requests)
 Guardar el dataframe en un nuevo archivo
 ```R
 write.csv(data,'../data/hotel_bookings_cleaned.csv', na="NA",row.names=TRUE)
-data = read.csv('../data/hotel_bookings_cleaned.csv')
+data = read.csv('../data/hotel_bookings_cleaned.csv', sep=",")
 ```
 ## 4. Análisis de datos exploratorios<a name="data4"></a>
 
@@ -404,12 +413,12 @@ OUTPUT: [Conclusión](#conclusion2)
 ### c. ¿Cuándo se producen las temporadas de reservas: alta, media y baja?
 
 ```R
-dtx = read.xlsx("../data/hotel_bookings_miss.xlsx")
-dtx$reservation_date =convertToDate(data$reservation_status_date)
+dtx = data
+dtx$reservation_date =as.Date(dtx$reservation_status_date, format="%d/%m/%Y")
 
 
 origin = "1900-01-01"
-dtx$reservation_month = format(as.Date(dtx$reservation_status_date, origin), "%m")
+dtx$reservation_month = format(as.Date(dtx$reservation_date, origin), "%m")
 dtx$reservation_month = as.numeric(dtx$reservation_month)
 
 
@@ -428,9 +437,8 @@ dtx$reservation_temporary = ifelse(dtx$reservation_temporary == 11, 4, dtx$reser
 dtx$reservation_temporary = ifelse(dtx$reservation_temporary == 12, 4, dtx$reservation_temporary)
 
 dtx$reservation_temporary
-
-dtx$reservation_temporary                                   
-dtx$reservation_year = format(as.Date(dtx$reservation_status_date, origin), "%Y")
+                                
+dtx$reservation_year = format(as.Date(dtx$reservation_date, origin), "%Y")
 dtx$reservation_year = as.numeric(dtx$reservation_year)
 
 reservaciones = table(dtx$reservation_year, dtx$reservation_temporary)
@@ -442,7 +450,6 @@ barplot(reservaciones,
         xlab = "Nº de trimestre", ylab="Número de reservaciones",
         args.legend = list(x = "topright",
                            inset = c(- 0.0, -0.05)))
-
 ```
 ```
            1     2     3     4
@@ -579,7 +586,7 @@ barplot(canceladosPorAnio,
         col=c("red","blue"),legend=c("no cancelado","cancelado"),
         xlab = ("año"),ylab = ("numero de reservas"),args.legend = list(x = "topright",inset = c(- 0.05, -0.25)))
 ```
-OUTPUT: [Conclusión](#conlusion8)
+OUTPUT: [Conclusión](#conclusion8)
 <div><center>
 	<img src="img/pic_h.png">
 </center></div>
@@ -592,11 +599,11 @@ En la visualización A se muestra la relación entre el número de reservas por 
 
 ### b. ¿Está aumentando la demanda con el tiempo?<a name="conclusion2"></a>
 
-En la gráfica de la pregunta B se muestra la relación de demanda de habitaciones por mes durante los años 2015, 2016, 2017. Se puede inferir que el mes con mayor demanda es agosto. el número total fue de 13877 demandas de habitaciones. Además, se observa que, durante el año 2015, fue el año con mayor número de meses que no hubo demandas. Estos meses del 2015 son enero, febrero, marzo, abril y junio.
+En la gráfica de la pregunta B se muestra la relación de demanda de habitaciones por los meses durante los años 2015, 2016, 2017. Se puede inferir que el mes con mayor demanda es agosto. el número total fue de 13877 demandas de habitaciones, luego le sigue el mes de julio, con un total de 12661 demanda de habitaciones. Por otro lado, los meses de menor demanda son enero (5929), diciembre (6780), noviembre (6794). Por lo tanto, se recomienda para los meses de julio y agosto, organizar la cantidad de personal que satisfaga la demanda, por otro lado, para los meses de enero, noviembre y diciembre, establecer costos mínimos u ofertas para ocupar las habitaciones disponibles.
 
 ### c. ¿Cuándo se producen las temporadas de reservas: alta, media y baja?<a name="conclusion3"></a>
 
-En la gráfica de la pregunta c, se muestra la relación de reserva de habitaciones por temporadas. Se puede inferir que la temporada 3 es la más demanda, esta temporada incluyen los meses de julio, agosto y septiembre. Además, durante el año 2015, hubo menor cantidad de reserva de habitaciones en las 2 primeras temporadas y lo mismo sucede en la temporada 4 del año 2017.
+En la gráfica de la pregunta C, se muestra la relación de reserva de habitaciones por temporadas. Se puede inferir que la temporada 3 es la más demanda (32811), este temporada incluyen los meses de julio, agosto y septiembre. Además, durante el año 2015, hubo menor cantidad de reserva de habitaciones en las 2 primeras temporadas (1072 y 937) y lo mismo sucede en la temporada 4 del año 2017 (0).
 
 ### d. ¿Cuándo es menor la demanda de reservas?<a name="conclusion4"></a>
 
