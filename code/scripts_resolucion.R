@@ -13,17 +13,24 @@ par(mfrow=c(1,1))
 #### A
 ClientesPorHotel=table(data$hotel,data$arrival_date_year)
 barplot(ClientesPorHotel,
-        main="Clientes en cada hotel por año",
+        main="Clientes en cada hotel por a?o",
         col=c("red","blue"),legend=c("City hotel","Resort hotel"),
-        xlab = ("año"),ylab = ("numero de clientes"),args.legend = list(x = "topright", inset = c(- 0.00, -0.05)))
+        xlab = ("a?o"),ylab = ("numero de clientes"),args.legend = list(x = "topright", inset = c(- 0.00, -0.05)))
 
 #### B
+
+sum(data$arrival_date_month == "August")
+sum(data$arrival_date_month == "July")
+sum(data$arrival_date_month == "January")
+sum(data$arrival_date_month == "December")
+sum(data$arrival_date_month == "November")
+
 demanda.hotel = table(data$arrival_date_year, data$arrival_date_month)
 
 barplot(demanda.hotel, 
-        main="Demanda de habitaciones por mes en cada año",
+        main="Demanda de habitaciones por mes en cada a?o",
         col=c("red", "blue", "green"), legend=c("2015", "2016", "2017"),
-        xlab = "Meses del año", ylab="Número de reservaciones")
+        xlab = "Meses del a?o", ylab="N?mero de reservaciones")
 demanda.hotel
 
 #### C
@@ -55,18 +62,23 @@ dtx$reservation_temporary
 dtx$reservation_year = format(as.Date(dtx$reservation_date, origin), "%Y")
 dtx$reservation_year = as.numeric(dtx$reservation_year)
 
+sum(dtx$reservation_temporary == 3)
+sum(dtx$reservation_temporary == 1 & dtx$reservation_year == 2015)
+sum(dtx$reservation_temporary == 2 & dtx$reservation_year == 2015)
+sum(dtx$reservation_temporary == 4 & dtx$reservation_year == 2017)
+
 reservaciones = table(dtx$reservation_year, dtx$reservation_temporary)
 
 reservaciones
 barplot(reservaciones, 
-        main="Reserva de habitacionespor trimestre en cada año",
+        main="Reserva de habitacionespor trimestre en cada a?o",
         col=c("gray", "red", "blue", "green"), legend=c("2014","2015", "2016", "2017"),
-        xlab = "Nº de trimestre", ylab="Número de reservaciones",
+        xlab = "N? de trimestre", ylab="N?mero de reservaciones",
         args.legend = list(x = "topright",
                            inset = c(- 0.0, -0.05)))
 
 #### D
-#Para dibujar el gráfico circular
+#Para dibujar el gr?fico circular
 draw_pie = function(df_col, lbls, titulo) {
         df_col = table(df_col)
         pct  = round(df_col/sum(df_col)*100)
@@ -91,7 +103,7 @@ data$reservation_year[x>=as.Date("2016-01-01") & x<as.Date("2017-01-01")] = 2016
 data$reservation_year[x>=as.Date("2017-01-01") & x<as.Date("2018-01-01")] = 2017
 
 
-titulo="Distribución de demanda de reservas por año"
+titulo="Distribuci?n de demanda de reservas por a?o"
 lbls = c("2014 -> ", "2015 -> ", "2016->", "2017 -> ")
 draw_pie(data$reservation_year, lbls, titulo)
 
@@ -113,7 +125,7 @@ data$children <- media.valor(data[ ,11])
 data$babies <- media.valor(data[ ,12])
 
 lbls <- c("NO INCLUYE -> ", "INCLUYE -> ")
-titulo="Cantidad de reservas que incluyen niños y/o bebes"
+titulo="Cantidad de reservas que incluyen ni?os y/o bebes"
 draw_pie(data$babyORchildren, lbls, titulo)
 
 #### F
@@ -134,6 +146,6 @@ legend("topright",names(tablaCancelado),fill = cols)
 #### H
 canceladosPorAnio=table(data$is_canceled,data$arrival_date_year)
 barplot(canceladosPorAnio,
-        main="Reservas por año",
+        main="Reservas por a?o",
         col=c("red","blue"),legend=c("no cancelado","cancelado"),
-        xlab = ("año"),ylab = ("numero de reservas"),args.legend = list(x = "topright",inset = c(- 0.05, -0.25)))
+        xlab = ("a?o"),ylab = ("numero de reservas"),args.legend = list(x = "topright",inset = c(- 0.05, -0.25)))
