@@ -24,8 +24,6 @@
 #
 # Contenidos
 
-> [GitHub](#github)
-
 1. [Objetivos](#data1)
 
 2. [Caso de análisis.](#data2)
@@ -53,13 +51,6 @@
 
 6. [Referencias](#refer)
 
-<div>&nbsp;</div>
-
-#
-
-## >. GitHub<a name="github"></a>
-
-El código fuente y los datasets, con ruido y preprocesado, se encuentran publicados en repositorio [ea-2021-1-cc51](https://github.com/u201912400/ea-2021-1-cc51) publicado en GitHub.
 #
 ## 1. Objetivo <a name="data1"></a>
 
